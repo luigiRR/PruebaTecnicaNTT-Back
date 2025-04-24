@@ -6,11 +6,13 @@ import java.util.Map;
 
 public interface IEmployeeService {
 
-    void saveEmployee(EmployeeDTO payload) throws Exception;
+    void save(EmployeeDTO payload) throws Exception;
 
-    Map getEmployees(Map params) throws Exception;
+    Map employees(Map params) throws Exception;
 
     Map getAssignedOffices(int employeeId) throws Exception;
 
-    void deleteEmployee(int employeeId) throws Exception;
+    void delete(int employeeId) throws Exception;
+
+    void edit(int employeeId, EmployeeDTO payload) throws Exception;
 }

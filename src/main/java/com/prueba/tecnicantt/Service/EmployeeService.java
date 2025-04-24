@@ -23,7 +23,7 @@ public class EmployeeService implements IEmployeeService {
     private final EmployeeOfficeRepository employeeOfficeRepository;
 
     @Override
-    public void saveEmployee(EmployeeDTO payload) throws Exception {
+    public void save(EmployeeDTO payload) throws Exception {
         Role role = new Role(Util.EMPLOYEE_ROLE);
         Status status = new Status(Util.CREATED_STATE);
         User user = User.builder()
@@ -53,7 +53,7 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public Map getEmployees(Map params) throws Exception{
+    public Map employees(Map params) throws Exception{
         int roleId = Integer.parseInt(params.get("roleId").toString());
         Map response = new HashMap<>();
         List<Map> users = userRepository.findByRoleId(roleId);
@@ -76,7 +76,7 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public void deleteEmployee(int employeeId) throws Exception{
+    public void delete(int employeeId) throws Exception{
         Status status = new Status(Util.DELETED_STATE);
         Optional<User> entity = userRepository.findById(employeeId);
         if(entity.isPresent()){
@@ -88,4 +88,7 @@ public class EmployeeService implements IEmployeeService {
         employeeOfficeRepository.deleteByEmployeeId(employeeId);
     }
 
+    @Override
+    public void edit(int employeeId, EmployeeDTO payload) throws Exception{
+    }
 }
