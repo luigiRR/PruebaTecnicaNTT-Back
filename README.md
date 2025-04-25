@@ -9,7 +9,7 @@ Este proyecto es una API RESTful desarrollada con **Spring Boot**, diseñada com
 - **Spring Security** – Autenticación con JWT
 - **Spring Web** – API REST
 - **Spring Data JPA** – Acceso a base de datos
-- **Lombok** – Eliminación de boilerplate
+- **Lombok** – reducir escritura de codigo / seguir buenas practicas
 - **PostgreSQL** – Base de datos
 - **Flyway** – Migraciones de base de datos
 
