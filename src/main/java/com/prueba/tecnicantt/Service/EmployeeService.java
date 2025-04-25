@@ -38,18 +38,7 @@ public class EmployeeService implements IEmployeeService {
                 .build();
         userRepository.save(user);
 
-        if (payload.getSelectedOffices() != null && !payload.getSelectedOffices().isEmpty()) {
-            for (Integer officeId : payload.getSelectedOffices()) {
-                Optional<Office> office = officeRepository.findById(officeId);
-                if(office.isPresent()){
-                    EmployeeOffice eo = EmployeeOffice.builder()
-                            .employee(user)
-                            .office(office.get())
-                            .build();
-                    employeeOfficeRepository.save(eo);
-                }
-            }
-        }
+        this.assignEmployeeOffice(user, payload.getSelectedOffices(),false);
     }
 
     @Override
@@ -90,5 +79,37 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public void edit(int employeeId, EmployeeDTO payload) throws Exception{
+        Optional<User> optionalUser = userRepository.findById(employeeId);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            user.setFirstName(payload.getFirstName());
+            user.setLastName(payload.getLastName());
+            user.setPhone(payload.getPhone());
+            user.setBirthdate(payload.getBirthdate());
+            user.setIdentitynumber(payload.getIdentityNumber());
+            user.setAddress(payload.getAddress());
+            userRepository.save(user);
+
+            this.assignEmployeeOffice(user, payload.getSelectedOffices(),true);
+        }
+    }
+
+    private void assignEmployeeOffice(User user, List<Integer> selectedOffices, boolean isEdit) throws Exception {
+        if(isEdit){
+            employeeOfficeRepository.deleteByEmployeeId(user.getId());
+        }
+
+        for (Integer officeId : selectedOffices) {
+            officeRepository.findById(officeId).ifPresent(office -> {
+                EmployeeOffice eo = EmployeeOffice.builder()
+                        .employee(user)
+                        .office(office)
+                        .build();
+                employeeOfficeRepository.save(eo);
+            });
+        }
+
     }
 }

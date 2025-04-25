@@ -70,7 +70,7 @@ public class EmployeeController {
     public ResponseEntity update(@PathVariable int employeeId, @RequestBody EmployeeDTO payload){
         ResponseEntity responseEntity;
         try {
-            //TODO: funcion para editar al empleado
+            employeeService.edit(employeeId, payload);
             responseEntity = new ResponseEntity<>("EMPLOYEE_UPDATED", HttpStatus.NO_CONTENT);
             return responseEntity;
         }catch (Exception e){
