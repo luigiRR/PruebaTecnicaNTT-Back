@@ -20,7 +20,7 @@ public class SwaggerUrlImplement implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         String baseUrl = "http://localhost:" + serverPort;
-        String endpointsUrl = baseUrl + swaggerUiPath + "#/transaction-controller/updateEvent";
+        String endpointsUrl = baseUrl + swaggerUiPath;
         logger.info("ACCESS_APIS_DOC: "+ endpointsUrl);
     }
 

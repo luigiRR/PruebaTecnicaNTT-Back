@@ -15,14 +15,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthService implements  IAuthService{
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public AuthResponse login(LoginRequest request){
+    @Override
+    public AuthResponse login(LoginRequest request) throws Exception{
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getPassword())
@@ -39,7 +40,8 @@ public class AuthService {
                 .build();
     }
 
-    public AuthResponse register(RegisterRequest request){
+    @Override
+    public AuthResponse register(RegisterRequest request) throws Exception{
         Role role = new Role(Util.ADMIN_ROLE);
         Status status = new Status(Util.CREATED_STATE);
         User user = User.builder()
@@ -56,6 +58,9 @@ public class AuthService {
 
         return AuthResponse.builder()
                 .token(jwtService.getToken(user))
+                .firstname(user.getFirstName())
+                .lastname(user.getLastName())
+                .roleId(user.getRole().getId())
                 .build();
     }
 }
